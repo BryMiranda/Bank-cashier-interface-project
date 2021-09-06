@@ -19,7 +19,7 @@ class Client extends Model implements HasMedia
         'email'
     ];
 
-    public function equipments()
+    public function draftChecks()
     {
         return $this->hasMany(DraftCheck::class);
     }

@@ -10,9 +10,10 @@ class DraftCheckController extends Controller
     public function index()
     {        
         $client = request()->client;
-        $draftChecks = DraftCheck::all();            
 
-        return view('draft-checks.index')
+        $draftChecks = $client->draftChecks;        
+
+        return view('clients.draft-checks.index')
             ->with([
                 'client' => $client,
                 'draftChecks' => $draftChecks,
@@ -23,7 +24,7 @@ class DraftCheckController extends Controller
     {
         $client = request()->client;
 
-        return view('draft-checks.create')
+        return view('clients.draft-checks.create')
             ->with([
                 'client' => $client
             ]);
@@ -58,11 +59,11 @@ class DraftCheckController extends Controller
 
     public function edit()
     {        
-        $client = request()->client;
+        $client = request()->client;        
 
         $draftCheck = request()->draftCheck;
 
-        return view('draft-checks.edit')
+        return view('clients.draft-checks.edit')
             ->with([
                 'client' => $client,
                 'draftCheck' => $draftCheck
@@ -75,9 +76,9 @@ class DraftCheckController extends Controller
 
         $draftCheck = request()->draftCheck;
         
-        $answer = request('answer');
+        $status = request()->status;        
 
-        if ($answer == 'SI') {
+        if ($status == 1) {
 
             $draftCheck->update([
                 'observation' => request()->observation,

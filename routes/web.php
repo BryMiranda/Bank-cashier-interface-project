@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DraftCheckController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,13 +25,14 @@ Route::get('/home', [HomeController::class, '__invoke'])->name('home');
 Route::prefix('/clients')->group(function () {
     
     Route::get('/', [ClientController::class, 'index'])->name('clients.index');
-    Route::get('/client', [ClientController::class, 'create'])->name('clients.create');
-    Route::post('/client', [ClientController::class, 'store'])->name('clients.store');
+    Route::get('/create', [ClientController::class, 'create'])->name('clients.create');
+    Route::post('/create', [ClientController::class, 'store'])->name('clients.store');
     
-    Route::prefix('/bank-drafts')->group(function () {
-        Route::get('/bank-draft', [DraftCheckController::class, 'create'])->name('bank-draft.create');
-        Route::post('/bank-draft', [DraftCheckController::class, 'store'])->name('bank-draft.store'); 
-        Route::get('/{bank-draft}/edit', [DraftCheckController::class, 'edit'])->name('bank-draft.edit');
-        Route::post('/{bank-draft}', [DraftCheckController::class, 'update'])->name('bank-draft.update');   
+    Route::prefix('/{client}/draft-checks')->group(function () {
+        Route::get('/', [DraftCheckController::class, 'index'])->name('draft-checks.index');
+        Route::get('/create', [DraftCheckController::class, 'create'])->name('draft-checks.create');
+        Route::post('/create', [DraftCheckController::class, 'store'])->name('draft-checks.store'); 
+        Route::get('/{draftCheck}/edit', [DraftCheckController::class, 'edit'])->name('draft-checks.edit');
+        Route::post('/{draftCheck}', [DraftCheckController::class, 'update'])->name('draft-checks.update');   
     });
 });

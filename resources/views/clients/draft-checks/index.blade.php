@@ -2,25 +2,26 @@
 
 @section('content')
     <x-ui.header>
-        Solicitudes de cheques
+        Solicitudes del cliente {{ $client->name }}
     </x-ui.header>
 
     <x-ui.container>
         <div class="space-y -2">
             <h1 class="text-2xl">
-                Clientes
+                Solicitudes
             </h1>
             <p class="text-gray-600 text-sm">
-                Seleccione un cliente con cheque registrado para validar
+                Seleccione una solicitud de cheque
             </p>
         </div>
 
         <div class="sm:flex sm:justify-end">
             <div class="flex justify-end items-center">
                 <div class="inline-flex rounded-md shadow-sm">
-                    <a href="{{route('clients.create')}}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-teal-700 focus:shadow-outline-teal active:bg-teal-700 transition ease-in-out duration-150">
+                    <a href="{{ route('draft-checks.create', $client) }}"
+                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-teal-700 focus:shadow-outline-teal active:bg-teal-700 transition ease-in-out duration-150">
                         <i class="fas fa-file mr-2"></i>
-                        Agregar Nuevo Cliente
+                        Agregar Nueva Solicitud
                     </a>
                 </div>
             </div>
@@ -35,33 +36,50 @@
                         <tr>
                             <th
                                 class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                Nombre
+                                Número de cheque
                             </th>
                             <th
                                 class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                Correo
+                                observación
+                            </th>
+                            <th
+                                class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Estatus solicitud
                             </th>
                             <th class="px-6 py-3 border-b border-gray-200 bg-gray-50">
                             </th>
                         </tr>
                     </thead>
                     <tbody class="bg-white">
-                        @foreach ($clients as $client)
+                        @foreach ($draftChecks as $draftCheck)
                             <tr>
                                 <td
                                     class="px-6 py-4 border-b border-gray-200 text-sm leading-5 font-medium text-gray-900 space-y-2">
-                                    {{ $client->name }}
+                                    {{ $draftCheck->check_number }}
                                 </td>
                                 <td class="px-6 py-4 border-b border-gray-200 text-sm leading-5 text-gray-500">
-                                    {{ $client->email }}
-                                </td>                                
+                                    @if ($draftCheck->observation == null)
+                                        Sin observación
+                                    @else
+                                        {{ $draftCheck->observation }}
+                                    @endif                                    
+                                </td>
+                                <td class="px-6 py-4 border-b border-gray-200 text-sm leading-5 text-gray-500">
+                                    @if ($draftCheck->status == 1)
+                                        Cheque Aprovado
+                                    @elseif ($draftCheck->status == 0)
+                                        Cheque Denegado
+                                    @else
+                                        Por verificar
+                                    @endif
+                                </td>
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-left border-b border-gray-200 text-sm leading-5 font-medium">
-                                    <div class="flex justify-end items-center space-x-8">                                                                                
-                                        <a href="{{ route('draft-checks.index', $client->id) }}"                                            
+                                    <div class="flex justify-end items-center space-x-8">
+                                        <a href="{{ route('draft-checks.edit', [$client,$draftCheck->id]) }}"
                                             class="text-teal-600 hover:text-teal-900 focus:outline-none focus:underline">
-                                            Ver solicitudes de cheques
-                                        </a>                                        
+                                            Ver solicitud de cheque
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -69,8 +87,8 @@
                     </tbody>
                 </table>
 
-                <x-empty-list :count="$clients->count()">
-                    No existen clientes registrados
+                <x-empty-list :count="$draftChecks->count()">
+                    No existen cheques registrados
                 </x-empty-list>
             </div>
         </div>
