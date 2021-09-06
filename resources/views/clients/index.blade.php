@@ -6,6 +6,7 @@
     </x-ui.header>
 
     <x-ui.container>
+        <x-ui.flash />
         <div class="space-y -2">
             <h1 class="text-2xl">
                 Clientes
