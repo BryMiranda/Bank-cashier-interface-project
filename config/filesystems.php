@@ -52,6 +52,18 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
+        'client' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/client'),
+            'url' => env('APP_URL').'/storage/client',
+            'visibility' => 'public',
+        ],
+        'draft-check' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/draft-check'),
+            'url' => env('APP_URL').'/storage/draft-check',
+            'visibility' => 'public',
+        ],
 
     ],
 
