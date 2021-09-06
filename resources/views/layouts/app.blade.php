@@ -13,8 +13,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    @yield('css')
-    {{-- @livewireStyles --}}
+    @yield('css')    
 
 </head>
 <body class="bg-gray-100">
@@ -23,8 +22,6 @@
 
     @yield('content')
 </div>
-
-@livewireScripts
 
 @stack('js')
 <script src="{{ mix('js/app.js') }}"></script>
